@@ -1,0 +1,8 @@
+Het klinkt vaak zo logisch. Eerst een mooie to-be uittekenen en dan pas alles beginnen bouwen. Of eerst de kans krijgen om de as-is helemaal uit te puren, dan de to-be en dan de weg er naar toe. Vergeet het, in de huidige context krijg je die kans nooit. De wereld veranderd nu eenmaal continu, dus ook de context waarin je werkt vandaag veranderd constant. 
+
+Probeer niet in een werking verzeild te geraken waarin je continu achter de feiten aanholt. Als je het gevoel hebt dat je in je architectuurdocumentatie niet kan volgen, dan moet je naar andere manieren gaan kijken om greep op de zaak te houden. Je kan met verschillende zoom-niveau's werken, je kan abstracter dingen in kaart brengen. 
+Zoals al aangehaald, je bent niet de documentalist van de organisatie. Het is niet jou taak om alles tot in de details uitgewerkt te hebben.
+
+Uiteraard vind je het als architect om van te smullen dat er een centrale ontologie zou zijn of een gemeenschappelijk vocabularium. Maar laat het ontbreken er van je niet in de weg staan om het bedrijf te architecten. En trap al zeker niet in de val om die zaken dan zelf proberen in te vullen. Dat is niet je taak als architect. Hoe waardevol we dat ook moge vinden. De kans is trouwens zeer groot dat de teams niet klaar staan om dit dan te gaan toepassen. Want er was waarschijnlijk wel een goede reden waarom ze er geen oren naar hadden. 
+
+Bouw op wat er van onder uit al is gerealiseerd. Dit heeft ook te maken met hoe "maturiteit" opgebouwd wordt. Je moet als bedrijf beginnen met de basics. Maar die basics, die fundamenten, moeten door de project en/of technologie teams van onderuit, niet top down, uitgebouwd worden, anders blijven ze dode letter. 

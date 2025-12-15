@@ -1,0 +1,15 @@
+{
+  "name": "TMOAA",
+  "version": "1.0.0",
+  "description": "Static site for The Mindset Of An Architect",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "marked": "^4.3.0"
+  }
+}
