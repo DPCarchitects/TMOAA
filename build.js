@@ -130,6 +130,9 @@ function build() {
     <div class="hero-content">
       <p class="eyebrow">Essays & Observaties</p>
       <h1>${SITE_TITLE}</h1>
+      <div class="badge-frame">
+        <img src="./assets/mindset-badge.png" alt="Mindset badge met de slogans mindset boven model, ritme boven ritueel, impact boven inventaris" loading="lazy" />
+      </div>
       <div class="lede">
         <p>Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen. Geen frameworks om de frameworks, maar concrete manieren om impact te maken.</p>
         ${intro.html ? `
@@ -140,11 +143,6 @@ function build() {
       </div>
       <div class="hero-actions">
         <a class="button primary" href="#posts">Lees de stukken</a>
-      </div>
-    </div>
-    <div class="hero-aside">
-      <div class="badge-frame">
-        <img src="./assets/mindset-badge.png" alt="Mindset badge met de slogans mindset boven model, ritme boven ritueel, impact boven inventaris" loading="lazy" />
       </div>
     </div>
   </section>
@@ -272,16 +270,14 @@ body {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 32px;
-  align-items: center;
+  display: block;
   padding: 48px;
   margin-top: 28px;
   background: linear-gradient(135deg, rgba(31, 90, 255, 0.16), rgba(91, 211, 255, 0.12));
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) * 1.25);
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .hero-content {
@@ -290,6 +286,12 @@ body {
   gap: 12px;
   align-items: flex-start;
   max-width: 760px;
+}
+
+.hero::after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 .hero-content h1 {
@@ -341,20 +343,17 @@ body {
   transform: translateY(-2px);
 }
 
-.hero-aside {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 240px;
-}
-
 .badge-frame {
-  width: min(320px, 100%);
+  width: min(320px, 40%);
   background: radial-gradient(circle at 30% 30%, rgba(31, 90, 255, 0.18), rgba(16, 25, 44, 0.9));
   padding: 18px;
   border-radius: 24px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  float: right;
+  margin-left: 18px;
+  margin-bottom: 12px;
+  shape-outside: circle(50%);
 }
 
 .badge-frame img {
@@ -371,8 +370,8 @@ body {
 
 .intro-text {
   color: var(--muted);
-  line-height: 1.5;
-  font-size: 15px;
+  line-height: 1.6;
+  font-size: 16px;
 }
 
 .intro-text p { margin: 0 0 10px; }
@@ -524,13 +523,15 @@ body {
   }
   .hero {
     padding: 32px;
-    grid-template-columns: 1fr;
-  }
-  .hero-aside {
-    order: -1;
-    margin-bottom: 12px;
   }
   .post-shell { padding: 20px; }
+
+  .badge-frame {
+    float: none;
+    margin: 0 auto 12px;
+    width: min(320px, 100%);
+    shape-outside: none;
+  }
 }
 `; // end css
 
