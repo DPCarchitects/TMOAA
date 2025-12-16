@@ -8,6 +8,7 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const POSTS_DIR = path.join(DIST_DIR, 'posts');
 const MATERIALS_DIR = path.join(__dirname, 'materials');
 const ASSETS_DIR = path.join(DIST_DIR, 'assets');
+const INTRO_FILE = path.join(CONTENT_DIR, 'Introductie.md');
 
 marked.setOptions({
   gfm: true,
@@ -37,6 +38,16 @@ function slugify(name) {
 
 function cleanTitle(name) {
   return name.replace(/\.md$/i, '').replace(/_/g, '').trim();
+}
+
+function introSnippet() {
+  if (!fs.existsSync(INTRO_FILE)) return { html: '', slug: '' };
+  const raw = fs.readFileSync(INTRO_FILE, 'utf8');
+  const words = raw.split(/\s+/).filter(Boolean);
+  const snippetWords = words.slice(0, 140);
+  const snippet = snippetWords.join(' ') + (words.length > snippetWords.length ? '…' : '');
+  const html = marked.parse(snippet);
+  return { html, slug: slugify('Introductie') };
 }
 
 function excerptFrom(raw) {
@@ -88,6 +99,7 @@ function build() {
 
   cleanDir(DIST_DIR);
   cleanDir(POSTS_DIR);
+  const intro = introSnippet();
 
   const files = fs
     .readdirSync(CONTENT_DIR)
@@ -118,7 +130,16 @@ function build() {
     <div class="hero-content">
       <p class="eyebrow">Essays & Observaties</p>
       <h1>${SITE_TITLE}</h1>
-      <p class="lede">Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen. Geen frameworks om de frameworks, maar concrete manieren om impact te maken.</p>
+      <div class="lede">
+        <p>Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen. Geen frameworks om de frameworks, maar concrete manieren om impact te maken.</p>
+        ${intro.html ? `
+        <div class="intro-snippet">
+          <div class="intro-text">${intro.html}</div>
+          <div class="intro-fade"></div>
+        </div>
+        <a class="read-more" href="./posts/${intro.slug}/index.html">Lees meer →</a>
+        ` : ''}
+      </div>
       <div class="hero-actions">
         <a class="button primary" href="#posts">Lees de stukken</a>
       </div>
@@ -275,8 +296,11 @@ body {
   color: var(--muted);
   font-size: 18px;
   line-height: 1.6;
-  max-width: 36ch;
+  max-width: 46ch;
+  position: relative;
 }
+
+.lede p { margin: 0 0 12px; }
 
 .hero-actions {
   display: flex;
@@ -330,6 +354,31 @@ body {
   display: block;
   width: 100%;
   border-radius: 18px;
+}
+
+.intro-snippet {
+  position: relative;
+  max-height: 160px;
+  overflow: hidden;
+  border-radius: 14px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.intro-text {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.intro-text p { margin: 0 0 10px; }
+
+.intro-fade {
+  position: relative;
+  height: 60px;
+  margin-top: -60px;
+  background: linear-gradient(180deg, rgba(12,18,32,0) 0%, rgba(12,18,32,0.9) 70%);
 }
 
 .section-header h2 {
