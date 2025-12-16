@@ -286,6 +286,14 @@ body {
   box-shadow: var(--shadow);
 }
 
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 760px;
+}
+
 .hero-content h1 {
   font-size: clamp(32px, 6vw, 46px);
   margin: 8px 0 12px;
@@ -307,6 +315,7 @@ body {
   gap: 12px;
   margin-top: 18px;
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .button {
