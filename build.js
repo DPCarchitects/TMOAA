@@ -6,6 +6,8 @@ const SITE_TITLE = 'The Mindset Of An Architect';
 const CONTENT_DIR = path.join(__dirname, 'contents');
 const DIST_DIR = path.join(__dirname, 'dist');
 const POSTS_DIR = path.join(DIST_DIR, 'posts');
+const MATERIALS_DIR = path.join(__dirname, 'materials');
+const ASSETS_DIR = path.join(DIST_DIR, 'assets');
 
 marked.setOptions({
   gfm: true,
@@ -106,6 +108,8 @@ function build() {
     };
   });
 
+  copyAssets();
+
   const indexBody = `
   <section class="hero">
     <div class="hero-content">
@@ -117,10 +121,9 @@ function build() {
       </div>
     </div>
     <div class="hero-aside">
-      <div class="shape"></div>
-      <div class="bubble">Mindset boven model</div>
-      <div class="bubble">Ritme boven ritueel</div>
-      <div class="bubble">Impact boven inventaris</div>
+      <div class="badge-frame">
+        <img src="./assets/mindset-badge.png" alt="Mindset badge met de slogans mindset boven model, ritme boven ritueel, impact boven inventaris" loading="lazy" />
+      </div>
     </div>
   </section>
   <section class="posts" id="posts">
@@ -177,6 +180,15 @@ function build() {
   });
 
   writeStyles();
+}
+
+function copyAssets() {
+  const badgeSrc = path.join(MATERIALS_DIR, 'mindset-badge.png');
+  if (!fs.existsSync(badgeSrc)) {
+    return;
+  }
+  fs.mkdirSync(ASSETS_DIR, { recursive: true });
+  fs.copyFileSync(badgeSrc, path.join(ASSETS_DIR, 'mindset-badge.png'));
 }
 
 function writeStyles() {
@@ -294,31 +306,25 @@ body {
 }
 
 .hero-aside {
-  position: relative;
-  min-height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
 }
 
-.hero-aside .shape {
-  position: absolute;
-  inset: 0;
-  border-radius: 28px;
-  background: radial-gradient(circle at 30% 30%, rgba(15, 118, 110, 0.35), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(249, 115, 22, 0.35), transparent 45%),
-    rgba(255, 255, 255, 0.5);
-  filter: blur(0px);
-  border: 1px dashed rgba(15, 118, 110, 0.25);
-}
-
-.hero-aside .bubble {
-  position: relative;
-  display: inline-block;
-  margin: 8px;
-  padding: 10px 14px;
-  background: #fff;
-  border-radius: 14px;
+.badge-frame {
+  width: min(320px, 100%);
+  background: radial-gradient(circle at 30% 30%, rgba(15, 118, 110, 0.16), rgba(255, 255, 255, 0.9));
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  color: var(--accent);
-  font-weight: 700;
+}
+
+.badge-frame img {
+  display: block;
+  width: 100%;
+  border-radius: 18px;
 }
 
 .section-header h2 {
