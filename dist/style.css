@@ -136,11 +136,11 @@ body {
   border-radius: 24px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  float: right;
-  margin-left: 18px;
+  float: left;
+  margin-right: 18px;
   margin-bottom: 12px;
   shape-outside: circle(50%);
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .badge-frame img {
