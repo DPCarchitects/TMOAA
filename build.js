@@ -135,9 +135,7 @@ function build() {
         ${intro.html ? `
         <div class="intro-snippet">
           <div class="intro-text">${intro.html}</div>
-          <div class="intro-fade"></div>
         </div>
-        <a class="read-more" href="./posts/${intro.slug}/index.html">Lees meer →</a>
         ` : ''}
       </div>
       <div class="hero-actions">
@@ -367,28 +365,19 @@ body {
 
 .intro-snippet {
   position: relative;
-  max-height: 160px;
-  overflow: hidden;
   margin: 0;
   padding: 0;
-  background: none;
-  border: 0;
-  box-shadow: none;
 }
 
 .intro-text {
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 15px;
 }
 
 .intro-text p { margin: 0 0 10px; }
 
-.intro-fade {
-  position: relative;
-  height: 60px;
-  margin-top: -60px;
-  background: linear-gradient(180deg, rgba(12,18,32,0) 0%, rgba(12,18,32,0.9) 70%);
-}
+.intro-fade { display: none; }
 
 .section-header h2 {
   margin: 6px 0 0;
