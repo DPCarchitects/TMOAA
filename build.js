@@ -475,7 +475,14 @@ body {
     gap: 6px;
     align-items: flex-start;
   }
-  .hero { padding: 32px; }
+  .hero {
+    padding: 32px;
+    grid-template-columns: 1fr;
+  }
+  .hero-aside {
+    order: -1;
+    margin-bottom: 12px;
+  }
   .post-shell { padding: 20px; }
 }
 `; // end css
