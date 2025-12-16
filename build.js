@@ -285,7 +285,7 @@ body {
   flex-direction: column;
   gap: 12px;
   align-items: flex-start;
-  max-width: 760px;
+  width: 100%;
 }
 
 .hero::after {
