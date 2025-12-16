@@ -304,7 +304,6 @@ body {
   color: var(--muted);
   font-size: 18px;
   line-height: 1.6;
-  max-width: 46ch;
   position: relative;
 }
 
