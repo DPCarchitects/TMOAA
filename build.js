@@ -123,6 +123,8 @@ function build() {
     };
   });
 
+  const listingPosts = posts.filter((post) => post.slug !== 'introductie');
+
   copyAssets();
 
   const indexBody = `
@@ -152,7 +154,7 @@ function build() {
       <h2>Verhalen en micro-lessen</h2>
     </div>
     <div class="post-grid">
-      ${posts
+      ${listingPosts
         .map((post) => `
           <article class="post-card">
             <div class="post-meta">Laatste update: ${post.updated.toLocaleDateString('nl-BE')}</div>
