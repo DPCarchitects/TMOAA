@@ -196,14 +196,14 @@ function copyAssets() {
 
 function writeStyles() {
   const css = `:root {
-  --bg: #f4f5fb;
-  --surface: rgba(255, 255, 255, 0.92);
-  --ink: #0f172a;
-  --muted: #475569;
-  --accent: #0f766e;
-  --accent-2: #f97316;
-  --border: #e2e8f0;
-  --shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+  --bg: #0c1220;
+  --surface: rgba(16, 25, 44, 0.96);
+  --ink: #e4eaf6;
+  --muted: #c3cce0;
+  --accent: #1f5aff;
+  --accent-2: #5bd3ff;
+  --border: #1f2b45;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   --radius: 16px;
   font-family: 'Avenir Next', 'Nunito', 'Segoe UI', 'Trebuchet MS', sans-serif;
 }
@@ -211,7 +211,9 @@ function writeStyles() {
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  background: radial-gradient(circle at 20% 20%, #dff6ff 0, #f8f2e8 40%, #f4f5fb 70%, #eef2ff 100%);
+  background: radial-gradient(circle at 25% 20%, rgba(69, 106, 196, 0.15), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(91, 211, 255, 0.2), transparent 30%),
+    linear-gradient(145deg, #0b1424 0%, #0a101d 50%, #0d172b 100%);
   color: var(--ink);
   min-height: 100vh;
 }
@@ -257,7 +259,7 @@ body {
   align-items: center;
   padding: 48px;
   margin-top: 28px;
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(249, 115, 22, 0.12));
+  background: linear-gradient(135deg, rgba(31, 90, 255, 0.16), rgba(91, 211, 255, 0.12));
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) * 1.25);
   box-shadow: var(--shadow);
@@ -293,15 +295,15 @@ body {
 }
 
 .button.primary {
-  background: var(--accent);
-  color: #ecfeff;
-  box-shadow: 0 14px 34px rgba(15, 118, 110, 0.35);
+  background: linear-gradient(120deg, #1f5aff, #4c7dff);
+  color: #f8fbff;
+  box-shadow: 0 14px 34px rgba(16, 90, 255, 0.35);
 }
 
 .button.ghost {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(15, 118, 110, 0.08);
+  background: rgba(31, 90, 255, 0.08);
 }
 
 .button:hover {
@@ -317,7 +319,7 @@ body {
 
 .badge-frame {
   width: min(320px, 100%);
-  background: radial-gradient(circle at 30% 30%, rgba(15, 118, 110, 0.16), rgba(255, 255, 255, 0.9));
+  background: radial-gradient(circle at 30% 30%, rgba(31, 90, 255, 0.18), rgba(16, 25, 44, 0.9));
   padding: 18px;
   border-radius: 24px;
   border: 1px solid var(--border);
