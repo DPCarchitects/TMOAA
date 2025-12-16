@@ -35,6 +35,10 @@ function slugify(name) {
   return slug || 'post';
 }
 
+function cleanTitle(name) {
+  return name.replace(/\.md$/i, '').replace(/_/g, '').trim();
+}
+
 function excerptFrom(raw) {
   const firstParagraph = raw.split(/\n\s*\n/).find((block) => block.trim());
   if (!firstParagraph) return '';
@@ -94,7 +98,7 @@ function build() {
   const posts = files.map((file) => {
     const filePath = path.join(CONTENT_DIR, file);
     const raw = fs.readFileSync(filePath, 'utf8');
-    const title = file.replace(/\.md$/i, '');
+    const title = cleanTitle(file);
     const slug = slugify(title);
     const html = marked.parse(raw);
     const excerpt = excerptFrom(raw);
