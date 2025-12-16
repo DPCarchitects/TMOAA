@@ -73,7 +73,6 @@ function renderLayout({ pageTitle, description, body, assetPrefix }) {
         </div>
         <div class="footer-links">
           <a href="${prefix}/index.html">Home</a>
-          <a href="mailto:info@example.com">Contact</a>
         </div>
       </div>
     </footer>
