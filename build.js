@@ -76,6 +76,8 @@ function renderLayout({ pageTitle, description, body, assetPrefix }) {
 </html>`;
 }
 
+const DEFAULT_UPDATED_LABEL = '2024-3-15';
+
 function build() {
   if (!fs.existsSync(CONTENT_DIR)) {
     throw new Error('contents directory not found');
@@ -96,13 +98,12 @@ function build() {
     const slug = slugify(title);
     const html = marked.parse(raw);
     const excerpt = excerptFrom(raw);
-    const stats = fs.statSync(filePath);
     return {
       title,
       slug,
       html,
       excerpt,
-      updated: stats.mtime
+      updatedLabel: DEFAULT_UPDATED_LABEL
     };
   });
 
@@ -114,7 +115,6 @@ function build() {
       <p class="lede">Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen. Geen frameworks om de frameworks, maar concrete manieren om impact te maken.</p>
       <div class="hero-actions">
         <a class="button primary" href="#posts">Lees de stukken</a>
-        <a class="button ghost" href="mailto:info@example.com">Stuur een reactie</a>
       </div>
     </div>
     <div class="hero-aside">
@@ -133,7 +133,7 @@ function build() {
       ${posts
         .map((post) => `
           <article class="post-card">
-            <div class="post-meta">Laatste update: ${post.updated.toLocaleDateString('nl-BE')}</div>
+            <div class="post-meta">Laatste update: ${post.updatedLabel}</div>
             <h3><a href="./posts/${post.slug}/index.html">${post.title}</a></h3>
             <p class="post-excerpt">${post.excerpt}</p>
             <a class="read-more" href="./posts/${post.slug}/index.html">Lees artikel →</a>
@@ -162,7 +162,7 @@ function build() {
       <article class="post">
         <p class="eyebrow">${SITE_TITLE}</p>
         <h1>${post.title}</h1>
-        <div class="post-date">Bijgewerkt op ${post.updated.toLocaleDateString('nl-BE')}</div>
+        <div class="post-date">Bijgewerkt op ${post.updatedLabel}</div>
         <div class="post-content">${post.html}</div>
       </article>
     </section>`;
