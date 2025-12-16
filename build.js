@@ -354,6 +354,7 @@ body {
   margin-left: 18px;
   margin-bottom: 12px;
   shape-outside: circle(50%);
+  align-self: flex-end;
 }
 
 .badge-frame img {
@@ -528,9 +529,11 @@ body {
 
   .badge-frame {
     float: none;
-    margin: 0 auto 12px;
+    margin: 0 auto 16px;
     width: min(320px, 100%);
     shape-outside: none;
+    order: -1;
+    align-self: center;
   }
 }
 `; // end css
