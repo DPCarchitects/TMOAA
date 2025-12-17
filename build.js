@@ -40,13 +40,15 @@ function cleanTitle(name) {
   return name.replace(/\.md$/i, '').replace(/_/g, '').trim();
 }
 
-function introSnippet() {
+function introContent() {
   if (!fs.existsSync(INTRO_FILE)) return { html: '', slug: '' };
   const raw = fs.readFileSync(INTRO_FILE, 'utf8');
-  const words = raw.split(/\s+/).filter(Boolean);
-  const snippetWords = words.slice(0, 140);
-  const snippet = snippetWords.join(' ') + (words.length > snippetWords.length ? '…' : '');
-  const html = marked.parse(snippet);
+  const blocks = raw
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean);
+  const heroBlocks = blocks.slice(0, 3).join('\n\n');
+  const html = marked.parse(heroBlocks);
   return { html, slug: slugify('Introductie') };
 }
 
@@ -99,7 +101,7 @@ function build() {
 
   cleanDir(DIST_DIR);
   cleanDir(POSTS_DIR);
-  const intro = introSnippet();
+  const intro = introContent();
 
   const files = fs
     .readdirSync(CONTENT_DIR)
@@ -129,22 +131,22 @@ function build() {
 
   const indexBody = `
   <section class="hero">
-    <div class="hero-content">
-      <p class="eyebrow">Essays & Observaties</p>
-      <h1>${SITE_TITLE}</h1>
-      <div class="badge-frame">
-        <img src="./assets/mindset-badge.png" alt="Mindset badge met de slogans mindset boven model, ritme boven ritueel, impact boven inventaris" loading="lazy" />
-      </div>
-      <div class="lede">
-        <p>Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen. Geen frameworks om de frameworks, maar concrete manieren om impact te maken.</p>
-        ${intro.html ? `
-        <div class="intro-snippet">
-          <div class="intro-text">${intro.html}</div>
+    <div class="hero-grid">
+      <div class="hero-badge">
+        <div class="badge-glow" aria-hidden="true"></div>
+        <div class="badge-frame">
+          <img src="./assets/mindset-badge.png" alt="Mindset badge met de slogans mindset boven model, ritme boven ritueel, impact boven inventaris" loading="lazy" />
         </div>
-        ` : ''}
       </div>
-      <div class="hero-actions">
-        <a class="button primary" href="#posts">Lees de stukken</a>
+      <div class="hero-content">
+        <p class="eyebrow">Introductie</p>
+        <h1>${SITE_TITLE}</h1>
+        <p class="hero-subtitle">Een levend notitieboek over hoe architecten bewegen, beslissen en teams vooruit helpen — met focus op impact, ritme en toon.</p>
+        ${intro.html ? `<div class="hero-intro">${intro.html}</div>` : ''}
+        <div class="hero-actions">
+          <a class="button primary" href="#posts">Lees de stukken</a>
+          <a class="button ghost" href="./posts/${intro.slug}/index.html">Lees de volledige introductie</a>
+        </div>
       </div>
     </div>
   </section>
@@ -282,6 +284,33 @@ body {
   overflow: hidden;
 }
 
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  gap: 34px;
+  align-items: start;
+}
+
+.hero-badge {
+  position: relative;
+  padding-top: 10px;
+}
+
+.badge-glow {
+  position: absolute;
+  inset: 8% 6% 10% 6%;
+  background: radial-gradient(circle at 40% 35%, rgba(31, 90, 255, 0.4), rgba(91, 211, 255, 0.12) 55%, transparent 70%);
+  filter: blur(18px);
+  transform: rotate(-8deg);
+  z-index: 0;
+}
+
+.hero-badge .badge-frame {
+  position: relative;
+  z-index: 1;
+  transform: rotate(-6deg);
+}
+
 .hero-content {
   display: flex;
   flex-direction: column;
@@ -290,26 +319,29 @@ body {
   width: 100%;
 }
 
-.hero::after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
 .hero-content h1 {
   font-size: clamp(32px, 6vw, 46px);
   margin: 8px 0 12px;
   letter-spacing: -0.03em;
 }
 
-.lede {
+.hero-subtitle {
+  margin: 0;
   color: var(--muted);
   font-size: 18px;
   line-height: 1.6;
-  position: relative;
+  max-width: 72ch;
 }
 
-.lede p { margin: 0 0 12px; }
+.hero-intro {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.hero-intro p {
+  margin: 0 0 12px;
+}
 
 .hero-actions {
   display: flex;
@@ -345,17 +377,12 @@ body {
 }
 
 .badge-frame {
-  width: min(320px, 40%);
+  width: 100%;
   background: radial-gradient(circle at 30% 30%, rgba(31, 90, 255, 0.18), rgba(16, 25, 44, 0.9));
   padding: 18px;
-  border-radius: 24px;
+  border-radius: 26px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  float: left;
-  margin-right: 18px;
-  margin-bottom: 12px;
-  shape-outside: circle(50%);
-  align-self: flex-start;
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.4);
 }
 
 .badge-frame img {
@@ -364,21 +391,8 @@ body {
   border-radius: 18px;
 }
 
-.intro-snippet {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  clear: left;
-}
-
-.intro-text {
-  color: var(--muted);
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-.intro-text p { margin: 0 0 10px; }
-
+.intro-snippet { display: none; }
+.intro-text { display: none; }
 .intro-fade { display: none; }
 
 .section-header h2 {
@@ -529,17 +543,21 @@ body {
   }
   .post-shell { padding: 20px; }
 
-  .badge-frame {
-    float: none;
-    margin: 0 auto 16px;
-    width: min(320px, 100%);
-    shape-outside: none;
-    order: -1;
-    align-self: center;
+  .hero-grid {
+    grid-template-columns: 1fr;
   }
 
-  .hero-content > .eyebrow { order: -2; }
-  .hero-content h1 { order: 0; }
+  .hero-badge {
+    order: -1;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-badge .badge-frame {
+    transform: none;
+    max-width: 320px;
+  }
 }
 `; // end css
 
