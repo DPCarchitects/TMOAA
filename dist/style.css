@@ -4,8 +4,9 @@
   --ink: #e4eaf6;
   --muted: #c3cce0;
   --accent: #1f5aff;
+  --link: #4c7dff;
   --accent-2: #5bd3ff;
-  --border: #1f2b45;
+  --border: #4a689c;
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   --radius: 16px;
   font-family: 'Avenir Next', 'Nunito', 'Segoe UI', 'Trebuchet MS', sans-serif;
@@ -167,15 +168,15 @@ body {
 }
 
 .button.primary {
-  background: linear-gradient(120deg, #1f5aff, #4c7dff);
+  background: linear-gradient(120deg, #1f5aff, #2f63ff);
   color: #f8fbff;
   box-shadow: 0 14px 34px rgba(16, 90, 255, 0.35);
 }
 
 .button.ghost {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(31, 90, 255, 0.08);
+  border-color: var(--link);
+  color: var(--link);
+  background: rgba(76, 125, 255, 0.10);
 }
 
 .button:hover {
@@ -249,7 +250,7 @@ body {
   text-decoration: none;
 }
 
-.post-card a:hover { color: var(--accent); }
+.post-card a:hover { color: var(--link); }
 
 .post-meta {
   color: var(--muted);
@@ -263,7 +264,7 @@ body {
 
 .read-more {
   margin-top: auto;
-  color: var(--accent);
+  color: var(--link);
   font-weight: 700;
 }
 
@@ -335,7 +336,7 @@ body {
 .footer-links a {
   display: inline-block;
   margin-left: 12px;
-  color: var(--accent);
+  color: var(--link);
   text-decoration: none;
   font-weight: 700;
 }
