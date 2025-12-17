@@ -1,7 +1,7 @@
 {
   "name": "TMOAA",
   "version": "1.0.0",
-  "description": "Static site for The Mindset Of An Architect",
+  "description": "Static site for The Mindset Of An IT Architect",
   "main": "index.js",
   "scripts": {
     "build": "node build.js"

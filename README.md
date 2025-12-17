@@ -1,4 +1,4 @@
-# The Mindset Of An Architect
+# The Mindset Of An IT Architect
 
 Static site that renders the markdown essays in `contents/` to HTML with a small Node build script.
 

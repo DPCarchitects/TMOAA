@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 
-const SITE_TITLE = 'The Mindset Of An Architect';
+const SITE_TITLE = 'The Mindset Of An IT Architect';
 const CONTENT_DIR = path.join(__dirname, 'contents');
 const DIST_DIR = path.join(__dirname, 'dist');
 const POSTS_DIR = path.join(DIST_DIR, 'posts');
