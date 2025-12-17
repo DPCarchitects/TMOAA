@@ -72,12 +72,15 @@ function renderLayout({ pageTitle, description, body, assetPrefix }) {
   <link rel="stylesheet" href="${prefix}/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Ga naar inhoud</a>
   <div class="page">
     <header class="site-header">
       <a class="brand" href="${prefix}/index.html">${SITE_TITLE}</a>
       <span class="tagline">Praktische notities voor impactvolle architecten</span>
     </header>
-    ${body}
+    <main id="main" class="main">
+      ${body}
+    </main>
     <footer class="site-footer">
       <div class="footer-inner">
         <div>
@@ -155,18 +158,20 @@ function build() {
       <p class="eyebrow">Alle artikelen</p>
       <h2>Verhalen en micro-lessen</h2>
     </div>
-    <div class="post-grid">
+    <ul class="post-grid" role="list">
       ${listingPosts
         .map((post) => `
-          <article class="post-card">
-            <div class="post-meta">Laatste update: ${post.updated.toLocaleDateString('nl-BE')}</div>
-            <h3><a href="./posts/${post.slug}/index.html">${post.title}</a></h3>
-            <p class="post-excerpt">${post.excerpt}</p>
-            <a class="read-more" href="./posts/${post.slug}/index.html">Lees artikel →</a>
-          </article>
+          <li class="post-card">
+            <article>
+              <div class="post-meta">Laatste update: ${post.updated.toLocaleDateString('nl-BE')}</div>
+              <h3><a href="./posts/${post.slug}/index.html">${post.title}</a></h3>
+              <p class="post-excerpt">${post.excerpt}</p>
+              <a class="read-more" aria-label="Lees artikel: ${post.title}" href="./posts/${post.slug}/index.html">Lees artikel →</a>
+            </article>
+          </li>
         `)
         .join('')}
-    </div>
+    </ul>
   </section>`;
 
   const indexHtml = renderLayout({
@@ -237,6 +242,30 @@ body {
     linear-gradient(145deg, #0b1424 0%, #0a101d 50%, #0d172b 100%);
   color: var(--ink);
   min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #f8fbff;
+  text-decoration: none;
+  font-weight: 800;
+  transform: translateY(-140%);
+  transition: transform 120ms ease;
+  z-index: 999;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 3px;
 }
 
 .page {
@@ -414,10 +443,12 @@ body {
 }
 
 .post-grid {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
-  margin-top: 18px;
 }
 
 .post-card {

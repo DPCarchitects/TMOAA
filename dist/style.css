@@ -21,6 +21,30 @@ body {
   min-height: 100vh;
 }
 
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #f8fbff;
+  text-decoration: none;
+  font-weight: 800;
+  transform: translateY(-140%);
+  transition: transform 120ms ease;
+  z-index: 999;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
 .page {
   max-width: 1200px;
   margin: 0 auto;
@@ -196,10 +220,12 @@ body {
 }
 
 .post-grid {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
-  margin-top: 18px;
 }
 
 .post-card {
