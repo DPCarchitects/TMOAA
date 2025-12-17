@@ -368,6 +368,7 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
+  clear: left;
 }
 
 .intro-text {
@@ -536,6 +537,9 @@ body {
     order: -1;
     align-self: center;
   }
+
+  .hero-content > .eyebrow { order: -2; }
+  .hero-content h1 { order: 0; }
 }
 `; // end css
 
