@@ -39,6 +39,116 @@
       </div>
     </div>
   </section>
+  <section class="qa">
+    <div class="wrap">
+      <h1 class="qa-title">The Mindset Of An IT Architect</h1>
+      <div class="muted">Ask your question</div>
+      <div class="card" style="margin-top: 14px;">
+        <div class="row" style="display:none;">
+          <label>
+            API Settings
+            <input id="apiUrl" type="text" value="http://127.0.0.1:8000/chat" style="width: 360px;" />
+          </label>
+          <label>
+            top_k
+            <input id="topK" type="number" min="1" max="20" value="5" style="width: 90px;" />
+          </label>
+        </div>
+        <div class="qa-actions">
+          <button id="sendBtn">Send</button>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+        <div style="margin-top: 10px;">
+          <textarea id="message" placeholder="Ask a question about the repo..."></textarea>
+        </div>
+        <div id="status" class="muted" style="margin-top:10px;"></div>
+        <div id="error" class="error" style="margin-top:10px;"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin: 0 0 10px;">Answer</h3>
+        <div id="answer" class="muted">No response yet.</div>
+        <div class="sources">
+          <h3 style="margin: 14px 0 10px;">Sources</h3>
+          <div id="sources" class="muted">—</div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      function setStatus(msg) { $("status").textContent = msg || ""; }
+      function setError(msg) { $("error").textContent = msg || ""; }
+      function setAnswer(text) {
+        const el = $("answer");
+        el.className = "";
+        el.innerHTML = marked.parse(text || "");
+      }
+      function renderSources(sources) {
+        const el = $("sources");
+        el.innerHTML = "";
+        if (!sources || sources.length === 0) {
+          el.textContent = "—";
+          el.className = "muted";
+          return;
+        }
+        sources.forEach((s) => {
+          const div = document.createElement("div");
+          div.className = "source";
+          const title = document.createElement("div");
+          title.innerHTML = `<a href="TMOAA/${escapeHtml(s.path || "")}" class="pill">${escapeHtml(s.path || "")}</a>`;
+          div.appendChild(title);
+          el.appendChild(div);
+        });
+      }
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[c]));
+      }
+      async function send() {
+        setError("");
+        const url = $("apiUrl").value.trim();
+        const message = $("message").value.trim();
+        const top_k = Number($("topK").value) || 5;
+        if (!url) { setError("Please set API URL."); return; }
+        if (!message) { setError("Please type a message."); return; }
+        $("sendBtn").disabled = true;
+        setStatus("Sending…");
+        try {
+          const resp = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message, top_k })
+          });
+          if (!resp.ok) {
+            const txt = await resp.text();
+            throw new Error(`HTTP ${resp.status}: ${txt}`);
+          }
+          const data = await resp.json();
+          setAnswer(data.answer || "");
+          renderSources(data.sources || []);
+          setStatus("Done.");
+        } catch (err) {
+          setStatus("");
+          setError(err?.message || String(err));
+        } finally {
+          $("sendBtn").disabled = false;
+        }
+      }
+      $("sendBtn").addEventListener("click", send);
+      $("clearBtn").addEventListener("click", () => {
+        $("message").value = "";
+        setAnswer("No response yet.");
+        renderSources([]);
+        setError("");
+        setStatus("");
+        $("message").focus();
+      });
+      $("message").addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") send();
+      });
+    </script>
+  </section>
   <section class="posts" id="posts">
     <div class="section-header">
       <p class="eyebrow">Alle artikelen</p>

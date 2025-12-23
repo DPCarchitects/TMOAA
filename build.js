@@ -153,6 +153,116 @@ function build() {
       </div>
     </div>
   </section>
+  <section class="qa">
+    <div class="wrap">
+      <h1 class="qa-title">The Mindset Of An IT Architect</h1>
+      <div class="muted">Ask your question</div>
+      <div class="card" style="margin-top: 14px;">
+        <div class="row" style="display:none;">
+          <label>
+            API Settings
+            <input id="apiUrl" type="text" value="http://127.0.0.1:8000/chat" style="width: 360px;" />
+          </label>
+          <label>
+            top_k
+            <input id="topK" type="number" min="1" max="20" value="5" style="width: 90px;" />
+          </label>
+        </div>
+        <div class="qa-actions">
+          <button id="sendBtn">Send</button>
+          <button id="clearBtn" class="ghost">Clear</button>
+        </div>
+        <div style="margin-top: 10px;">
+          <textarea id="message" placeholder="Ask a question about the repo..."></textarea>
+        </div>
+        <div id="status" class="muted" style="margin-top:10px;"></div>
+        <div id="error" class="error" style="margin-top:10px;"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin: 0 0 10px;">Answer</h3>
+        <div id="answer" class="muted">No response yet.</div>
+        <div class="sources">
+          <h3 style="margin: 14px 0 10px;">Sources</h3>
+          <div id="sources" class="muted">—</div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      function setStatus(msg) { $("status").textContent = msg || ""; }
+      function setError(msg) { $("error").textContent = msg || ""; }
+      function setAnswer(text) {
+        const el = $("answer");
+        el.className = "";
+        el.innerHTML = marked.parse(text || "");
+      }
+      function renderSources(sources) {
+        const el = $("sources");
+        el.innerHTML = "";
+        if (!sources || sources.length === 0) {
+          el.textContent = "—";
+          el.className = "muted";
+          return;
+        }
+        sources.forEach((s) => {
+          const div = document.createElement("div");
+          div.className = "source";
+          const title = document.createElement("div");
+          title.innerHTML = \`<a href="TMOAA/\${escapeHtml(s.path || "")}" class="pill">\${escapeHtml(s.path || "")}</a>\`;
+          div.appendChild(title);
+          el.appendChild(div);
+        });
+      }
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[c]));
+      }
+      async function send() {
+        setError("");
+        const url = $("apiUrl").value.trim();
+        const message = $("message").value.trim();
+        const top_k = Number($("topK").value) || 5;
+        if (!url) { setError("Please set API URL."); return; }
+        if (!message) { setError("Please type a message."); return; }
+        $("sendBtn").disabled = true;
+        setStatus("Sending…");
+        try {
+          const resp = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message, top_k })
+          });
+          if (!resp.ok) {
+            const txt = await resp.text();
+            throw new Error(\`HTTP \${resp.status}: \${txt}\`);
+          }
+          const data = await resp.json();
+          setAnswer(data.answer || "");
+          renderSources(data.sources || []);
+          setStatus("Done.");
+        } catch (err) {
+          setStatus("");
+          setError(err?.message || String(err));
+        } finally {
+          $("sendBtn").disabled = false;
+        }
+      }
+      $("sendBtn").addEventListener("click", send);
+      $("clearBtn").addEventListener("click", () => {
+        $("message").value = "";
+        setAnswer("No response yet.");
+        renderSources([]);
+        setError("");
+        setStatus("");
+        $("message").focus();
+      });
+      $("message").addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") send();
+      });
+    </script>
+  </section>
   <section class="posts" id="posts">
     <div class="section-header">
       <p class="eyebrow">Alle artikelen</p>
@@ -489,6 +599,85 @@ body {
   margin-top: auto;
   color: var(--link);
   font-weight: 700;
+}
+
+.qa {
+  margin-top: 48px;
+}
+
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.qa-title {
+  margin: 8px 0 2px;
+  color: var(--ink);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 14px;
+}
+
+.qa-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.qa button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: linear-gradient(120deg, #1f5aff, #2f63ff);
+  color: #f8fbff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.qa button.ghost {
+  background: #fff;
+  color: #111;
+  border-color: #ccc;
+}
+
+.qa textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  color: var(--ink);
+}
+
+.qa input {
+  margin-top: 6px;
+}
+
+.error {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.source {
+  margin-bottom: 6px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(76, 125, 255, 0.15);
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--border);
 }
 
 .post-shell {

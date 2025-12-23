@@ -268,6 +268,85 @@ body {
   font-weight: 700;
 }
 
+.qa {
+  margin-top: 48px;
+}
+
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.qa-title {
+  margin: 8px 0 2px;
+  color: var(--ink);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 14px;
+}
+
+.qa-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.qa button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: linear-gradient(120deg, #1f5aff, #2f63ff);
+  color: #f8fbff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.qa button.ghost {
+  background: #fff;
+  color: #111;
+  border-color: #ccc;
+}
+
+.qa textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  color: var(--ink);
+}
+
+.qa input {
+  margin-top: 6px;
+}
+
+.error {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.source {
+  margin-bottom: 6px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(76, 125, 255, 0.15);
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
+
 .post-shell {
   margin-top: 32px;
   padding: 28px;
