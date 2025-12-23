@@ -32,17 +32,14 @@
 <p>Zeer (te?) vaak gaat het daarbij over de “frameworks” zelf én hoe ze kunnen bijdragen in een architectuurwerking.</p>
 <p>We worden daarbij te vaak meegesleurd in een reflex dat dit ook meteen een doorslag is naar wat een architect hoort te doen en wat zijn outcome hoort te zijn.</p>
 </div>
-        <div class="hero-actions">
-          <a class="button primary" href="#posts">Lees de stukken</a>
-          <a class="button ghost" href="./posts/introductie/index.html">Lees de volledige introductie</a>
-        </div>
+        
       </div>
     </div>
   </section>
   <section class="qa">
     <div class="wrap">
-      <h1 class="qa-title">The Mindset Of An IT Architect</h1>
-      <div class="muted">Ask your question</div>
+      <h2>Stel je vraag</h2>
+     
       <div class="card" style="margin-top: 14px;">
         <div class="row" style="display:none;">
           <label>
@@ -95,7 +92,7 @@
           const div = document.createElement("div");
           div.className = "source";
           const title = document.createElement("div");
-          title.innerHTML = `<a href="TMOAA/${escapeHtml(s.path || "")}" class="pill">${escapeHtml(s.path || "")}</a>`;
+          title.innerHTML = `<a href="../${escapeHtml(s.path || "")}" class="pill">${escapeHtml(s.path || "")}</a>`;
           div.appendChild(title);
           el.appendChild(div);
         });
